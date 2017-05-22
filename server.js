@@ -9,7 +9,10 @@ var server = http.Server(app);
 var io = socket_io(server);
 
 io.on("connection", function(socket) {
-	console.log("Client Connected");
+	console.log("Client Connected", socket.id);
+	socket.on("position", function(position){
+	socket.broadcast.emit("draw", position);
+});
 });
 
 server.listen(process.env.PORT || 8080);
