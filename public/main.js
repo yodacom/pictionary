@@ -1,3 +1,6 @@
+/* global $ */
+
+var socket = io();
 var pictionary = function() {
 	var canvas, context;
 
@@ -17,6 +20,7 @@ var pictionary = function() {
 			x: event.pageX - offset.left,
 			y: event.pageY - offset.top
 		};
+		socket.emit("position", position);
 		draw(position);
 	});
 };
@@ -24,3 +28,4 @@ var pictionary = function() {
 $(document).ready(function() {
 	pictionary();
 });
+

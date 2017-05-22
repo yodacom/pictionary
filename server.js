@@ -8,4 +8,8 @@ app.use(express.static("public"));
 var server = http.Server(app);
 var io = socket_io(server);
 
+io.on("connection", function(socket) {
+	console.log("Client Connected");
+});
+
 server.listen(process.env.PORT || 8080);
