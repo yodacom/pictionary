@@ -8,20 +8,6 @@ var pictionary = function() {
 		context.beginPath();
 		context.arc(position.x, position.y, 6, 0, 2 * Math.PI);
 		context.fill();
-
-		var guessBox;
-
-		var onKeyDown = function(event) {
-			if (event.keyCode !== 13) {
-				return;
-			}
-			console.log(guessBox.val());
-			guessBox.val("");
-		
-		};
-
-		guessBox = $("#guess input");
-		guessBox.on("keydown", onKeyDown);
 	};
 
 	canvas = $("canvas");
@@ -47,9 +33,27 @@ var pictionary = function() {
 		drawing = false;
 	});
 	socket.on("draw", draw);
+
+	var guessBox;
+
+	var onKeyDown = function(event) {
+		if (event.keyCode !== 13) {
+			return;
+		}
+		socket.emit("guessName", guessBox.val());
+		guessBox.val("");
+	};
+
+	guessBox = $("#guess input");
+	guessBox.on("keydown", onKeyDown);
+
+	var guessAnswer = function(guess) {
+		$("#clientGuess").text(guess);
+	};
+
+	socket.on("guessMade", guessAnswer);
 };
 
 $(document).ready(function() {
 	pictionary();
 });
-

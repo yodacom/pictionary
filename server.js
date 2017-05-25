@@ -13,6 +13,11 @@ io.on("connection", function(socket) {
 	socket.on("position", function(position){
 	socket.broadcast.emit("draw", position);
 });
+
+socket.on("guessName",(guess) => {
+	socket.broadcast.emit("guessMade", guess);
+})
+
 });
 
 server.listen(process.env.PORT || 8080);
