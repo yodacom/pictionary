@@ -1,6 +1,18 @@
 /* global $ */
 
+$(document).ready(function(){
+
 var socket = io();
+
+var guesserNumber = $("#guesserNumber");
+var guesserNickname = $("#guesserNickname");
+var addMessage = function(message) {
+		messages.append(`<div> ${message} </div>`);
+
+
+var 
+});
+
 var pictionary = function() {
 	var canvas, context, drawing;
 
