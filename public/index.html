@@ -34,6 +34,27 @@
         display: block;
         margin: 0 auto;
     }
+
+    #main {
+        display:none;
+    }
+
+    .nickname {
+        width: 40%;
+        margin:20px auto;
+        box-shadow: 2px 2px 2px 2px #C7CACD;
+        border-radius: 5px;
+        text-align:center;
+        padding:10px;
+    }
+
+    .nickname input {
+        width:100%;
+        border:none;
+        border-bottom:solid 1px #C7CACD;
+        font-size: 24pt;
+
+    }
 </style>
 
 <!-- JS -->
@@ -44,6 +65,7 @@
 
 <div id="main">
     <h1>Pictionary</h1>
+    <h2>You are <span class="yourname"></span></h2>
     <div id="top-message">
         <div id="guess" style="display: flex; justify-content: center">
             Make a guess: <input type="text">
@@ -52,3 +74,9 @@
     </div>
 
     <canvas id="canvas"></canvas>
+</div>
+
+<div class="nickname">
+    <h2>Please enter your nickname:</h2>
+    <input type="text" id="nickname">
+</div>

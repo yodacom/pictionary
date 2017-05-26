@@ -1,6 +1,6 @@
 /* global $ */
 
-var socket = io();
+var server = io();
 var pictionary = function() {
 	var canvas, context, drawing;
 
@@ -21,7 +21,7 @@ var pictionary = function() {
 				x: event.pageX - offset.left,
 				y: event.pageY - offset.top
 			};
-			socket.emit("position", position);
+			server.emit("position", position);
 			draw(position);
 		}
 	});
@@ -32,7 +32,6 @@ var pictionary = function() {
 	canvas.on("mouseup", function(event) {
 		drawing = false;
 	});
-	socket.on("draw", draw);
 
 	var guessBox;
 
@@ -40,7 +39,7 @@ var pictionary = function() {
 		if (event.keyCode !== 13) {
 			return;
 		}
-		socket.emit("guessName", guessBox.val());
+		server.emit("guessName", guessBox.val());
 		guessBox.val("");
 	};
 
@@ -51,7 +50,23 @@ var pictionary = function() {
 		$("#clientGuess").text(guess);
 	};
 
-	socket.on("guessMade", guessAnswer);
+	//User enters nickname
+	var addNickName = function(event){
+        if (event.keyCode !== 13) {
+            return;
+        }
+        var nickname = $("#nickname").val();
+        $(".yourname").text(nickname);
+        $(".nickname").hide();
+        $("#main").show();
+        server.emit("setNickname", nickname);
+	}
+
+	$("#nickname").on("keydown", addNickName);
+
+
+    server.on("draw", draw);
+	server.on("guessMade", guessAnswer);
 };
 
 $(document).ready(function() {

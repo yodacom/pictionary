@@ -8,15 +8,20 @@ app.use(express.static("public"));
 var server = http.Server(app);
 var io = socket_io(server);
 
-io.on("connection", function(socket) {
-	console.log("Client Connected", socket.id);
-	socket.on("position", function(position){
-	socket.broadcast.emit("draw", position);
-});
+io.on("connection", function(client) {
+	console.log("Client Connected", client.id);
+	client.on("position", function(position){
+		client.broadcast.emit("draw", position);
+	});
 
-socket.on("guessName",(guess) => {
-	socket.broadcast.emit("guessMade", guess);
-})
+	client.on("guessName",(guess) => {
+		client.broadcast.emit("guessMade",
+			guess + " guessed by " + client.nickname);
+	})
+
+	client.on("setNickname", (nickname) => {
+		client.nickname = nickname;
+	});
 
 });
 
