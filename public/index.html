@@ -36,16 +36,32 @@
     }
 
     #main {
-        display:none;
+        /*display:none;*/
+    }
+
+
+    .overlay {
+        position:absolute;
+        content:"";
+        display:block;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-color:rgba(0, 0, 0, 0.2);
     }
 
     .nickname {
         width: 40%;
-        margin:20px auto;
         box-shadow: 2px 2px 2px 2px #C7CACD;
         border-radius: 5px;
         text-align:center;
         padding:10px;
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%, -50%);
+        background-color:#FFFFFF;
     }
 
     .nickname input {
@@ -65,10 +81,15 @@
 
 <div id="main">
     <h1>Pictionary</h1>
-    <h2>You are <span class="yourname"></span></h2>
+    <h2>You are <span class="yourname"></span>
+        - <span class="rolename"></span>
+    </h2>
     <div id="top-message">
         <div id="guess" style="display: flex; justify-content: center">
-            Make a guess: <input type="text">
+            Make a guess:
+            <select id="guessWords" class="guess">
+
+            </select>
             <div id="clientGuess"></div>
         </div>
     </div>
@@ -76,7 +97,9 @@
     <canvas id="canvas"></canvas>
 </div>
 
-<div class="nickname">
-    <h2>Please enter your nickname:</h2>
-    <input type="text" id="nickname">
+<div class="overlay">
+    <div class="nickname">
+        <h2>Please enter your nickname:</h2>
+        <input type="text" id="nickname">
+    </div>
 </div>

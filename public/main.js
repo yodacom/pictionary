@@ -1,5 +1,19 @@
 /* global $ */
-
+var WORDS = [
+    "word", "letter", "number", "person", "pen", "class", "people",
+    "sound", "water", "side", "place", "man", "men", "woman", "women", "boy",
+    "girl", "year", "day", "week", "month", "name", "sentence", "line", "air",
+    "land", "home", "hand", "house", "picture", "animal", "mother", "father",
+    "brother", "sister", "world", "head", "page", "country", "question",
+    "answer", "school", "plant", "food", "sun", "state", "eye", "city", "tree",
+    "farm", "story", "sea", "night", "day", "life", "north", "south", "east",
+    "west", "child", "children", "example", "paper", "music", "river", "car",
+    "foot", "feet", "book", "science", "room", "friend", "idea", "fish",
+    "mountain", "horse", "watch", "color", "face", "wood", "list", "bird",
+    "body", "dog", "family", "song", "door", "product", "wind", "ship", "area",
+    "rock", "order", "fire", "problem", "piece", "top", "bottom", "king",
+    "space"
+];
 var server = io();
 var pictionary = function() {
 	var canvas, context, drawing;
@@ -21,6 +35,7 @@ var pictionary = function() {
 				x: event.pageX - offset.left,
 				y: event.pageY - offset.top
 			};
+
 			server.emit("position", position);
 			draw(position);
 		}
@@ -35,16 +50,12 @@ var pictionary = function() {
 
 	var guessBox;
 
-	var onKeyDown = function(event) {
-		if (event.keyCode !== 13) {
-			return;
-		}
+	var wordSelected = function(event) {
 		server.emit("guessName", guessBox.val());
-		guessBox.val("");
 	};
 
-	guessBox = $("#guess input");
-	guessBox.on("keydown", onKeyDown);
+	guessBox = $("#guessWords");
+	guessBox.on("change", wordSelected);
 
 	var guessAnswer = function(guess) {
 		$("#clientGuess").text(guess);
@@ -57,16 +68,30 @@ var pictionary = function() {
         }
         var nickname = $("#nickname").val();
         $(".yourname").text(nickname);
-        $(".nickname").hide();
-        $("#main").show();
+        $(".overlay").hide();
         server.emit("setNickname", nickname);
 	}
 
 	$("#nickname").on("keydown", addNickName);
 
 
+	var setRole = function(role){
+		$('.rolename').text(role);
+		//disable canvas for guessers etc
+	}
+
     server.on("draw", draw);
 	server.on("guessMade", guessAnswer);
+	server.on("role", setRole);
+
+
+	//Set up the words drop down
+	WORDS.forEach(function(word){
+		var option = $('<option>', {value:word, text:word});
+		$("#guessWords").append(option);
+	})
+
+
 };
 
 $(document).ready(function() {

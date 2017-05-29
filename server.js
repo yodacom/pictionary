@@ -8,8 +8,19 @@ app.use(express.static("public"));
 var server = http.Server(app);
 var io = socket_io(server);
 
+var drawer = null;
+var guessers = [];
+
 io.on("connection", function(client) {
-	console.log("Client Connected", client.id);
+
+	if(!drawer){
+		drawer = client;
+		client.emit("role", "drawer");
+	}else{
+		guessers.push(client);
+		client.emit("role", "guesser");
+	}
+
 	client.on("position", function(position){
 		client.broadcast.emit("draw", position);
 	});
