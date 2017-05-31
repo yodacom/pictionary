@@ -71,6 +71,14 @@
         font-size: 24pt;
 
     }
+
+    .rolename {
+        background: orange;
+    }
+
+    //.clientGuess {
+     //   background:orange
+    }
 </style>
 
 <!-- JS -->
@@ -81,17 +89,22 @@
 
 <div id="main">
     <h1>Pictionary</h1>
-    <h2>You are <span class="yourname"></span>
-        - <span class="rolename"></span>
-    </h2>
+    <h2>Hi <span class="yourname"></span>
+        - you are a: <span class="rolename"></span>
+    <h2 id="leftGame"></h2>
+    <h3>Select a word from the list box to guess what the drawer is showing: </h3>
+
     <div id="top-message">
         <div id="guess" style="display: flex; justify-content: center">
-            Make a guess:
+            Make a guess: 
             <select id="guessWords" class="guess">
 
-            </select>
-            <div id="clientGuess"></div>
+            </select></div>
+            
         </div>
+        <h3>You have guessed:
+        <span id="clientGuess"></span>
+    </h3>
     </div>
 
     <canvas id="canvas"></canvas>

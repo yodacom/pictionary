@@ -34,6 +34,10 @@ io.on("connection", function(client) {
 		client.nickname = nickname;
 	});
 
+	client.on("disconnect", () => {
+		client.broadcast.emit ("ClientLeft", `${client.nickname} has left the game`);
+	})
+
 });
 
 server.listen(process.env.PORT || 8080);
