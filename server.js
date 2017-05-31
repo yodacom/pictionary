@@ -28,7 +28,7 @@ io.on("connection", function(client) {
 	client.on("guessName",(guess) => {
 		client.broadcast.emit("guessMade",
 			guess + " guessed by " + client.nickname);
-	})
+	});
 
 	client.on("setNickname", (nickname) => {
 		client.nickname = nickname;
@@ -36,7 +36,7 @@ io.on("connection", function(client) {
 
 	client.on("disconnect", () => {
 		client.broadcast.emit ("ClientLeft", `${client.nickname} has left the game`);
-	})
+	});
 
 });
 

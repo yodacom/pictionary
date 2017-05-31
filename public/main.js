@@ -181,7 +181,7 @@ var pictionary = function() {
 	var clientLeft = function(Message){
 		$("#leftGame").text(Message);
 
-	}
+	};
 	server.on("ClientLeft", clientLeft);
 };
 
