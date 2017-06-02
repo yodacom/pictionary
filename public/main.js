@@ -1,5 +1,4 @@
-/* global $ */
-var WORDS = [
+const WORDS = [
 	"word",
 	"letter",
 	"number",
@@ -99,13 +98,15 @@ var WORDS = [
 	"top",
 	"bottom",
 	"king",
-	"space"
+	"space",
 ];
-var server = io();
-var pictionary = function() {
-	var canvas, context, drawing;
+const server = io();
+const pictionary = function () {
+	let canvas,
+		context,
+		drawing;
 
-	var draw = function(position) {
+	const draw = function (position) {
 		context.beginPath();
 		context.arc(position.x, position.y, 6, 0, 2 * Math.PI);
 		context.fill();
@@ -115,29 +116,29 @@ var pictionary = function() {
 	context = canvas[0].getContext("2d");
 	canvas[0].width = canvas[0].offsetWidth;
 	canvas[0].height = canvas[0].offsetHeight;
-	canvas.on("mousemove", function(event) {
+	canvas.on("mousemove", (event) => {
 		if (drawing) {
-			var offset = canvas.offset();
-			var position = {
+			const offset = canvas.offset();
+			const position = {
 				x: event.pageX - offset.left,
-				y: event.pageY - offset.top
+				y: event.pageY - offset.top,
 			};
 
 			server.emit("position", position);
 			draw(position);
 		}
 	});
-	canvas.on("mousedown", function(event) {
+	canvas.on("mousedown", (event) => {
 		drawing = true;
 	});
 
-	canvas.on("mouseup", function(event) {
+	canvas.on("mouseup", (event) => {
 		drawing = false;
 	});
 
-	var guessBox;
+	let guessBox;
 
-	var wordSelected = function(event) {
+	let wordSelected = function (event) {
 		server.emit("guessName", guessBox.val());
 		$("#clientGuess").text(guessBox.val());
 	};
@@ -145,16 +146,16 @@ var pictionary = function() {
 	guessBox = $("#guessWords");
 	guessBox.on("change", wordSelected);
 
-	var guessAnswer = function(guess) {
+	let guessAnswer = function (guess) {
 		$("#clientGuess").text(guess);
 	};
 
-  //User enters nickname
-	var addNickName = function(event) {
+  // User enters nickname
+	let addNickName = function (event) {
 		if (event.keyCode !== 13) {
 			return;
 		}
-		var nickname = $("#nickname").val();
+		let nickname = $("#nickname").val();
 		$(".yourname").text(nickname);
 		$(".overlay").hide();
 		server.emit("setNickname", nickname);
@@ -162,29 +163,28 @@ var pictionary = function() {
 
 	$("#nickname").on("keydown", addNickName);
 
-// set the user role
-	var setRole = function(role) {
+  // set the user role
+	let setRole = function (role) {
 		$(".rolename").text(role);
-    //disable canvas for guessers etc
+    // disable canvas for guessers etc
 	};
 
 	server.on("draw", draw);
 	server.on("guessMade", guessAnswer);
 	server.on("role", setRole);
 
-  //Set up the words drop down
-	WORDS.forEach(function(word) {
-		var option = $("<option>", { value: word, text: word });
+  // Set up the words drop down
+	WORDS.forEach((word) => {
+		const option = $("<option>", { value: word, text: word });
 		$("#guessWords").append(option);
 	});
 
-	var clientLeft = function(Message){
+	const clientLeft = function (Message) {
 		$("#leftGame").text(Message);
-
 	};
 	server.on("ClientLeft", clientLeft);
 };
 
-$(document).ready(function() {
+$(document).ready(() => {
 	pictionary();
 });
