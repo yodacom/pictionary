@@ -140,14 +140,14 @@ const pictionary = function () {
 
   let wordSelected = function (event) {
     server.emit("guessName", guessBox.val());
-    $("#clientGuess").text(guessBox.val());
+    guessAnswer('Me: ' + guessBox.val());
   };
 
   guessBox = $("#guessWords");
   guessBox.on("change", wordSelected);
 
   let guessAnswer = function (guess) {
-    $("#clientGuess").text(guess);
+    $("#clientGuess").append('<li>' + guess + '</li>');
   };
 
   // User enters nickname

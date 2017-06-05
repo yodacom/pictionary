@@ -27,7 +27,7 @@ io.on("connection", (client) => {
   client.on("guessName", (guess) => {
     client.broadcast.emit(
       "guessMade",
-      `${guess} guessed by ${client.nickname}`,
+      `${guess} guessed by ${client.nickname}`
     );
   });
   client.on("setNickname", (nickname) => {
